@@ -41,4 +41,10 @@ Data create_int_data(int value);
 Data create_float_data(float value);
 Data create_string_data(const char* value);
 
+// 集合演算の関数宣言
+Set set_union(Set* set1, Set* set2);
+Set set_intersection(Set* set1, Set* set2);
+Set set_difference(Set* set1, Set* set2);
+Set set_symmetric_difference(Set* set1, Set* set2);
+
 #endif // SET_H

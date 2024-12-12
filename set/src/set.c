@@ -144,3 +144,82 @@ Data create_string_data(const char* value) {
     data.data.string_value = strdup(value);
     return data;
 }
+
+// 集合演算の実装
+Set set_union(Set* set1, Set* set2) {
+    Set result;
+    init_set(&result);
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        Node* node = set1->table[i];
+        while (node != NULL) {
+            add(&result, &node->data);
+            node = node->next;
+        }
+        node = set2->table[i];
+        while (node != NULL) {
+            add(&result, &node->data);
+            node = node->next;
+        }
+    }
+
+    return result;
+}
+
+Set set_intersection(Set* set1, Set* set2) {
+    Set result;
+    init_set(&result);
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        Node* node = set1->table[i];
+        while (node != NULL) {
+            if (contains(set2, &node->data)) {
+                add(&result, &node->data);
+            }
+            node = node->next;
+        }
+    }
+
+    return result;
+}
+
+Set set_difference(Set* set1, Set* set2) {
+    Set result;
+    init_set(&result);
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        Node* node = set1->table[i];
+        while (node != NULL) {
+            if (!contains(set2, &node->data)) {
+                add(&result, &node->data);
+            }
+            node = node->next;
+        }
+    }
+
+    return result;
+}
+
+Set set_symmetric_difference(Set* set1, Set* set2) {
+    Set result;
+    init_set(&result);
+
+    for (int i = 0; i < TABLE_SIZE; i++) {
+        Node* node = set1->table[i];
+        while (node != NULL) {
+            if (!contains(set2, &node->data)) {
+                add(&result, &node->data);
+            }
+            node = node->next;
+        }
+        node = set2->table[i];
+        while (node != NULL) {
+            if (!contains(set1, &node->data)) {
+                add(&result, &node->data);
+            }
+            node = node->next;
+        }
+    }
+
+    return result;
+}
